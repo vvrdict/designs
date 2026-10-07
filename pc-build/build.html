@@ -1,0 +1,213 @@
+<title>X3D 5080 Build</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a single spec-sheet column — total and budget gauge, parts table, compatibility checks, swaps, recreate steps */
+:root {
+  --bg: #f3f5f7;
+  --surface: #ffffff;
+  --fg: #16202a;
+  --muted: #5a6875;
+  --line: #d8dee4;
+  --accent: #0b6e8a;
+  --accent-soft: #dceff4;
+  --ok: #1f7a4a;
+  --ok-soft: #e1f2e8;
+  --warn: #9a5b00;
+  --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --body: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f151b; --surface: #16202a; --fg: #e4eaef; --muted: #93a2af; --line: #2a3742;
+    --accent: #5cc3df; --accent-soft: #143440; --ok: #5fd08f; --ok-soft: #13301f; --warn: #f0b45a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f151b; --surface: #16202a; --fg: #e4eaef; --muted: #93a2af; --line: #2a3742;
+  --accent: #5cc3df; --accent-soft: #143440; --ok: #5fd08f; --ok-soft: #13301f; --warn: #f0b45a;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.55; }
+.wrap { max-width: 980px; margin: 0 auto; padding-inline: 16px; padding-block: 40px 64px; display: grid; gap: 44px; }
+h1, h2 { font-family: var(--display); text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 3rem); font-stretch: 85%; font-weight: 800; line-height: 1.05; letter-spacing: -0.01em; }
+h2 { font-size: 1.35rem; font-stretch: 90%; font-weight: 700; }
+p { margin: 0; max-width: 68ch; }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.eyebrow { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+section { display: grid; gap: 16px; }
+
+/* Header */
+header { display: grid; gap: 18px; }
+.lede { color: var(--muted); font-size: 1.08rem; }
+.headline-stats { display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: baseline; }
+.total { font-family: var(--display); font-weight: 800; font-stretch: 80%; font-size: clamp(2.6rem, 7vw, 3.6rem); line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; }
+.stat { display: grid; gap: 2px; }
+.stat b { font-family: var(--mono); font-weight: 600; font-size: 1rem; }
+
+/* Budget gauge */
+.gauge { display: grid; gap: 6px; }
+.gauge svg { width: 100%; height: auto; display: block; overflow: visible; }
+.gauge text { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+
+/* Parts table */
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; min-width: 640px; }
+th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+th { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+td.cat { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); white-space: nowrap; }
+td.part strong { display: block; font-weight: 600; }
+td.part span { display: block; color: var(--muted); font-size: 0.92rem; }
+td.price { text-align: right; white-space: nowrap; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+th.price { text-align: right; }
+tfoot td { font-weight: 600; border-top: 2px solid var(--fg); border-bottom: 0; }
+.shop { font-family: var(--mono); font-size: 0.78rem; white-space: nowrap; }
+.note { font-size: 0.9rem; color: var(--muted); }
+
+/* Compatibility checks */
+.checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.check { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; min-width: 0; }
+.pill { grid-row: span 2; align-self: start; font-family: var(--mono); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 99px; background: var(--ok-soft); color: var(--ok); }
+.check h3 { margin: 0; font-size: 1rem; font-weight: 600; }
+.check p { color: var(--muted); font-size: 0.92rem; }
+.meter { grid-column: 2; height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; margin-top: 6px; }
+.meter i { display: block; height: 100%; background: var(--ok); }
+
+/* Swaps */
+.swaps { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 12px; }
+.swap { padding: 16px; border: 1px solid var(--line); border-radius: 6px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.swap .delta { font-family: var(--mono); font-weight: 600; font-variant-numeric: tabular-nums; }
+.swap .delta.down { color: var(--ok); }
+.swap .delta.up { color: var(--warn); }
+.swap p { font-size: 0.95rem; color: var(--muted); }
+
+/* Steps */
+ol.steps { margin: 0; padding-left: 1.4em; display: grid; gap: 8px; max-width: 70ch; }
+ol.steps li::marker { font-family: var(--mono); color: var(--accent); }
+.callout { padding: 14px 16px; background: var(--accent-soft); border-radius: 6px; max-width: 72ch; }
+.copyrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+button { font: 600 0.9rem var(--body); padding: 8px 14px; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent); color: var(--surface); cursor: pointer; }
+button:hover { filter: brightness(1.1); }
+#copyStatus { font-size: 0.85rem; color: var(--muted); }
+textarea { width: 100%; box-sizing: border-box; min-height: 9em; font: 0.82rem/1.5 var(--mono); padding: 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--fg); resize: vertical; }
+footer { color: var(--muted); font-size: 0.85rem; display: grid; gap: 6px; }
+@media (prefers-reduced-motion: no-preference) { .meter i { transition: width .6s ease; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Upgraded build · priced October 2026 · US street prices</div>
+    <h1>Ryzen 7 9800X3D + RTX 5080, Wi‑Fi 7, all in under $3,400</h1>
+    <p class="lede">A 1440p high-refresh and 4K gaming machine that also handles streaming, editing and everyday work. Every part sits on a platform with room to grow: AM5 gets Zen 6 CPUs on the same board, and the power supply has headroom for a bigger GPU later.</p>
+    <div class="headline-stats">
+      <div class="total">≈ $3,365</div>
+      <div class="stat"><span class="eyebrow">Budget target</span><b>$3,000 – $3,500</b></div>
+      <div class="stat"><span class="eyebrow">Hard cap</span><b>$4,000</b></div>
+      <div class="stat"><span class="eyebrow">Est. peak draw</span><b>≈ 560 W of 850 W</b></div>
+    </div>
+    <div class="gauge" aria-label="Build total of about $3,365 against a $4,000 cap, inside the $3,000 to $3,500 target range">
+      <svg viewBox="0 0 1000 52" role="img">
+        <rect x="0" y="10" width="1000" height="14" rx="3" fill="var(--line)"/>
+        <rect x="750" y="10" width="125" height="14" fill="var(--accent-soft)"/>
+        <rect x="0" y="10" width="841" height="14" rx="3" fill="var(--accent)"/>
+        <line x1="750" y1="4" x2="750" y2="30" stroke="var(--muted)" stroke-width="1.5"/>
+        <line x1="875" y1="4" x2="875" y2="30" stroke="var(--muted)" stroke-width="1.5"/>
+        <line x1="999" y1="4" x2="999" y2="30" stroke="var(--fg)" stroke-width="2"/>
+        <text x="0" y="46">$0</text>
+        <text x="500" y="46" text-anchor="middle">$2,000</text>
+        <text x="750" y="46" text-anchor="middle">$3,000</text>
+        <text x="875" y="46" text-anchor="middle">$3,500</text>
+        <text x="1000" y="46" text-anchor="end">$4,000 cap</text>
+      </svg>
+    </div>
+  </header>
+
+  <section aria-labelledby="parts">
+    <h2 id="parts">Parts list</h2>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Part</th><th>Pick and why</th><th class="price">Approx.</th><th>Shop</th></tr></thead>
+        <tbody>
+          <tr><td class="cat">CPU</td><td class="part"><strong>AMD Ryzen 7 9800X3D</strong><span>8 cores, 3D V-Cache. Still the fastest gaming CPU per dollar; the 9850X3D is only ~2% faster for more money.</span></td><td class="price">$450</td><td><a class="shop" href="https://www.newegg.com/p/pl?d=ryzen+7+9800x3d" target="_blank" rel="noopener">Newegg ↗</a></td></tr>
+          <tr><td class="cat">Cooler</td><td class="part"><strong>Arctic Liquid Freezer III Pro 360 A-RGB</strong><span>360 mm AIO, top-mounted. Keeps the X3D chip quiet under load, 6-year warranty, AM5 bracket in the box.</span></td><td class="price">$120</td><td><a class="shop" href="https://www.newegg.com/p/pl?d=arctic+liquid+freezer+iii+pro+360+a-rgb" target="_blank" rel="noopener">Newegg ↗</a></td></tr>
+          <tr><td class="cat">Board</td><td class="part"><strong>MSI MAG X870 Tomahawk WiFi</strong><span>Wi‑Fi 7 + Bluetooth 5.4 with the external antenna, 5 Gb Ethernet, 4× M.2, USB4 40 Gbps, PCIe 5.0 x16. Strong VRMs for future Zen 6 chips.</span></td><td class="price">$280</td><td><a class="shop" href="https://www.newegg.com/p/pl?d=msi+mag+x870+tomahawk+wifi" target="_blank" rel="noopener">Newegg ↗</a></td></tr>
+          <tr><td class="cat">Memory</td><td class="part"><strong>32 GB (2×16) DDR5‑6000 CL30, AMD EXPO</strong><span>e.g. Patriot Viper Venom RGB or XPG Lancer RGB. 6000 CL30 is the AM5 sweet spot. RAM prices are high in 2026, so any EXPO 6000 CL30 kit at the lowest price is fine.</span></td><td class="price">$400</td><td><a class="shop" href="https://www.newegg.com/p/pl?d=32gb+ddr5+6000+cl30+expo" target="_blank" rel="noopener">Newegg ↗</a></td></tr>
+          <tr><td class="cat">GPU</td><td class="part"><strong>NVIDIA GeForce RTX 5080 16 GB</strong><span>e.g. MSI Shadow 3X OC (303 mm) or Gigabyte Gaming OC. High-refresh 1440p, smooth 4K with DLSS 4. Grab whichever 5080 is cheapest that week.</span></td><td class="price">$1,580</td><td><a class="shop" href="https://www.newegg.com/p/pl?d=rtx+5080" target="_blank" rel="noopener">Newegg ↗</a></td></tr>
+          <tr><td class="cat">Storage</td><td class="part"><strong>WD_Black SN7100 2 TB NVMe (PCIe 4.0)</strong><span>~7,250 MB/s, TLC, runs cool. Three more M.2 slots free for later.</span></td><td class="price">$290</td><td><a class="shop" href="https://www.newegg.com/p/pl?d=wd+black+sn7100+2tb" target="_blank" rel="noopener">Newegg ↗</a></td></tr>
+          <tr><td class="cat">Power</td><td class="part"><strong>Corsair RM850x (ATX 3.1, 80+ Gold)</strong><span>Native 12V‑2×6 cable for the 5080, fully modular, 10-year warranty.</span></td><td class="price">$140</td><td><a class="shop" href="https://www.newegg.com/p/pl?d=corsair+rm850x+atx+3.1" target="_blank" rel="noopener">Newegg ↗</a></td></tr>
+          <tr><td class="cat">Case</td><td class="part"><strong>Lian Li Lancool 216 RGB (black or white)</strong><span>Mesh front with two 160 mm ARGB fans + 140 mm rear, glass side, 360 mm top radiator support, 392 mm GPU clearance.</span></td><td class="price">$105</td><td><a class="shop" href="https://www.newegg.com/p/pl?d=lian+li+lancool+216+rgb" target="_blank" rel="noopener">Newegg ↗</a></td></tr>
+        </tbody>
+        <tfoot><tr><td></td><td>Total (before tax, no OS)</td><td class="price">$3,365</td><td></td></tr></tfoot>
+      </table>
+    </div>
+    <p class="note">Prices are typical US prices seen in early October 2026 and move week to week. RAM, SSD and GPU prices are well above MSRP this year. Windows 11 is not included.</p>
+  </section>
+
+  <section aria-labelledby="compat">
+    <h2 id="compat">Compatibility checks</h2>
+    <div class="checks">
+      <div class="check"><span class="pill">OK</span><h3>CPU ↔ board</h3><p>AM5 socket. X870 boards ship with BIOS support for Ryzen 9000, and AM5 is confirmed for Zen 6.</p></div>
+      <div class="check"><span class="pill">OK</span><h3>GPU length</h3><p>303 mm card in a case that takes 392 mm.</p><div class="meter"><i style="width:77%"></i></div></div>
+      <div class="check"><span class="pill">OK</span><h3>Power budget</h3><p>≈120 W CPU + 360 W GPU + ≈80 W rest ≈ 560 W peak on an 850 W unit.</p><div class="meter"><i style="width:66%"></i></div></div>
+      <div class="check"><span class="pill">OK</span><h3>GPU power cable</h3><p>RM850x has a native 12V‑2×6 lead. Push it in fully until it clicks; no adapters.</p></div>
+      <div class="check"><span class="pill">OK</span><h3>Cooler fit</h3><p>Lancool 216 takes a 360 mm radiator on top, so the front stays clear for the 160 mm intake fans and the GPU.</p></div>
+      <div class="check"><span class="pill">OK</span><h3>Memory</h3><p>2 sticks in A2/B2. Turn on EXPO in BIOS to run at 6000. Two sticks run faster on AM5 than four.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="swaps">
+    <h2 id="swaps">Swaps if prices shift</h2>
+    <div class="swaps">
+      <div class="swap"><span class="delta down">− $530 → ≈ $2,835</span><strong>RTX 5070 Ti instead of 5080</strong><p>About 12–15% slower for a third less money. The best value per frame if the 5080 stays above $1,500.</p></div>
+      <div class="swap"><span class="delta down">− $780 → ≈ $2,585</span><strong>Radeon RX 9070 XT instead of 5080</strong><p>Close to 5070 Ti in raster games and much cheaper this year. Weaker in heavy ray tracing; FSR 4 instead of DLSS.</p></div>
+      <div class="swap"><span class="delta up">+ ≈ $400 → ≈ $3,765</span><strong>64 GB (2×32) instead of 32 GB</strong><p>Only for heavy editing, VMs or local AI. For gaming, 32 GB is enough; you can swap kits later.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="recreate">
+    <h2 id="recreate">Put it in BuildCores</h2>
+    <div class="callout"><p>BuildCores share links only come from a logged-in account, so add these eight parts in the BuildCores builder and hit Share to get your own link. It will also re-run its compatibility check and show live prices.</p></div>
+    <ol class="steps">
+      <li>Open <a href="https://www.buildcores.com" target="_blank" rel="noopener">buildcores.com</a> and start a new build (or edit your existing one).</li>
+      <li>Add each part from the list below, picking the exact model name.</li>
+      <li>Check the compatibility panel shows no warnings, then press Share.</li>
+    </ol>
+    <textarea id="partlist" readonly aria-label="Plain text parts list">CPU: AMD Ryzen 7 9800X3D
+CPU Cooler: ARCTIC Liquid Freezer III Pro 360 A-RGB
+Motherboard: MSI MAG X870 TOMAHAWK WIFI
+Memory: 32GB (2x16GB) DDR5-6000 CL30 EXPO (Patriot Viper Venom RGB / XPG Lancer RGB)
+Video Card: NVIDIA GeForce RTX 5080 16GB (MSI Shadow 3X OC or Gigabyte Gaming OC)
+Storage: WD_BLACK SN7100 2TB NVMe
+Power Supply: Corsair RM850x (ATX 3.1)
+Case: Lian Li LANCOOL 216 RGB</textarea>
+    <div class="copyrow"><button id="copyBtn" type="button">Copy parts list</button><span id="copyStatus" role="status"></span></div>
+  </section>
+
+  <footer>
+    <p>Original BuildCores link (NQskUL-cW) could not be loaded from the research environment, so this list is a full rebuild for the stated goals rather than a part-by-part edit.</p>
+    <p>Price sources: Newegg listings, videocardprices.com, cheapestssd.com and Newegg's 2026 DDR5 buying guide, checked October 2026.</p>
+  </footer>
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', function () {
+  var ta = document.getElementById('partlist');
+  var status = document.getElementById('copyStatus');
+  try {
+    navigator.clipboard.writeText(ta.value).then(function () {
+      status.textContent = 'Copied';
+    }, function () {
+      ta.focus(); ta.select(); status.textContent = 'Selected. Press Ctrl+C to copy.';
+    });
+  } catch (e) {
+    ta.focus(); ta.select(); status.textContent = 'Selected. Press Ctrl+C to copy.';
+  }
+});
+</script>
