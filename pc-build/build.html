@@ -98,120 +98,131 @@ button:hover { filter: brightness(1.1); }
 #copyStatus { font-size: 0.85rem; color: var(--muted); }
 textarea { width: 100%; box-sizing: border-box; min-height: 9em; font: 0.82rem/1.5 var(--mono); padding: 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--fg); resize: vertical; }
 footer { color: var(--muted); font-size: 0.85rem; display: grid; gap: 6px; }
+.was { display: block; color: var(--muted); font-size: 0.8rem; text-decoration: line-through; }
+.kept { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; color: var(--muted); }
+.changes { display: grid; gap: 10px; }
+.change { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+.change h3 { margin: 0; font-size: 1rem; font-weight: 600; }
+.change p { grid-column: 1 / -1; color: var(--muted); font-size: 0.93rem; }
+.change .delta { font-family: var(--mono); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.change .delta.down { color: var(--ok); }
+.change .delta.up { color: var(--warn); }
+.pill.fix { background: var(--accent-soft); color: var(--accent); }
 @media (prefers-reduced-motion: no-preference) { .meter i { transition: width .6s ease; } }
 </style>
 
 <div class="wrap">
   <header>
-    <div class="eyebrow">Upgraded build · cooling-first revision · priced October 2026 · US street prices</div>
-    <h1>Ryzen 7 9800X3D + RTX 5080, Wi‑Fi 7, built to run cool for years</h1>
-    <p class="lede">A 1440p high-refresh and 4K gaming machine that also handles streaming, editing and everyday work. Every part sits on a platform with room to grow: AM5 gets Zen 6 CPUs on the same board, and the 1000 W power supply has headroom for a bigger GPU later. This revision spends the last of the budget on cooling: the 5080 with one of the biggest coolers, two extra intake fans under the GPU, and a power supply that barely spins its fan at gaming load.</p>
+    <div class="eyebrow">Upgrade of “New Build 3” · BuildCores prices, 7 Oct 2026 · cheapest in-stock US seller</div>
+    <h1>Your white build, rebuilt around a 9800X3D, for $140 less</h1>
+    <p class="lede">Same white Lancool 216 look, same 360 mm Arctic cooler, same RAM and power supply. Six parts change: a faster gaming CPU on a platform that keeps getting new CPUs, a matching white Wi‑Fi 7 board, a cooler-running RTX 5080, and fixes for two parts that would have caused trouble.</p>
     <div class="headline-stats">
-      <div class="total">≈ $3,460</div>
-      <div class="stat"><span class="eyebrow">Budget target</span><b>$3,000 – $3,500</b></div>
-      <div class="stat"><span class="eyebrow">Hard cap</span><b>$4,000</b></div>
-      <div class="stat"><span class="eyebrow">Est. peak draw</span><b>≈ 560 W of 1000 W</b></div>
+      <div class="total">≈ $3,458</div>
+      <div class="stat"><span class="eyebrow">Your original</span><b>$3,598</b></div>
+      <div class="stat"><span class="eyebrow">Gaming CPU speed</span><b>≈ 25–30% faster</b></div>
+      <div class="stat"><span class="eyebrow">Power supply</span><b>1000 W, under 650 W used</b></div>
     </div>
-    <div class="gauge" aria-label="Build total of about $3,460 against a $4,000 cap, inside the $3,000 to $3,500 target range">
+    <div class="gauge" aria-label="New total about $3,458 versus the original $3,598, against a $4,000 cap">
       <svg viewBox="0 0 1000 52" role="img">
         <rect x="0" y="10" width="1000" height="14" rx="3" fill="var(--line)"/>
         <rect x="750" y="10" width="125" height="14" fill="var(--accent-soft)"/>
-        <rect x="0" y="10" width="865" height="14" rx="3" fill="var(--accent)"/>
+        <rect x="0" y="10" width="864" height="14" rx="3" fill="var(--accent)"/>
+        <line x1="900" y1="2" x2="900" y2="32" stroke="var(--warn)" stroke-width="2" stroke-dasharray="3 2"/>
         <line x1="750" y1="4" x2="750" y2="30" stroke="var(--muted)" stroke-width="1.5"/>
         <line x1="875" y1="4" x2="875" y2="30" stroke="var(--muted)" stroke-width="1.5"/>
         <line x1="999" y1="4" x2="999" y2="30" stroke="var(--fg)" stroke-width="2"/>
         <text x="0" y="46">$0</text>
         <text x="500" y="46" text-anchor="middle">$2,000</text>
         <text x="750" y="46" text-anchor="middle">$3,000</text>
-        <text x="875" y="46" text-anchor="middle">$3,500</text>
-        <text x="1000" y="46" text-anchor="end">$4,000 cap</text>
+        <text x="860" y="46" text-anchor="end">$3,500</text>
+        <text x="905" y="46" fill="var(--warn)">original</text>
+        <text x="1000" y="46" text-anchor="end">$4k</text>
       </svg>
     </div>
   </header>
 
+  <section aria-labelledby="changes">
+    <h2 id="changes">What changed from your build</h2>
+    <div class="changes">
+      <div class="change"><h3>Core Ultra 7 270K Plus → Ryzen 7 9800X3D</h3><span class="delta up">+$137</span><p>The 9800X3D is about 25–30% faster in games. The Intel chip wins at heavy multi-core work, but this PC is for gaming first. Its LGA 1851 socket is also a dead end: Intel’s next CPUs need a new board, while AM5 gets Zen 6 on the board you buy today.</p></div>
+      <div class="change"><h3>Z890 AORUS ELITE WIFI7 ICE → X870 AORUS ELITE WIFI7 ICE</h3><span class="delta up">+$37</span><p>The AMD version of the same white board, so the look stays identical. Wi‑Fi 7, Bluetooth, USB4 and four M.2 slots.</p></div>
+      <div class="change"><h3>PNY RTX 5080 Epic-X → Gigabyte RTX 5080 Gaming OC</h3><span class="delta down">−$181</span><p>Same GPU chip and speed. Gigabyte’s 3.5-slot cooler is one of the coolest and quietest on any 5080. It has a black shroud; for all-white, the Gigabyte 5080 Aero OC is $1,749.99 (+$146).</p></div>
+      <div class="change"><h3>Crucial T500 2TB → WD_Black SN7100 2TB</h3><span class="delta down">−$107</span><p>Same class of fast PCIe 4.0 drive. The T500 was $409 and nearly out of stock; the SN7100 is $302 and in stock.</p></div>
+      <div class="change"><h3>Corsair iCUE LINK QX120 → Arctic P12 Pro White A-RGB (reverse blade, 3-pack)</h3><span class="delta down">−$54</span><p><span class="pill fix">FIX</span> iCUE LINK fans only work through Corsair’s iCUE LINK System Hub, which is not in the build. The 3-fan kit at this price is the expansion kit, which has no hub. The Arctic fans plug straight into the motherboard and match the Arctic cooler’s lighting. Reverse blades are made for floor mounting, so the clean side faces the glass.</p></div>
+      <div class="change"><h3>Thermal Grizzly Conductonaut Extreme → Arctic MX-6</h3><span class="delta down">−$40</span><p><span class="pill fix">FIX</span> Conductonaut is liquid metal. It conducts electricity, can short the motherboard if a drop escapes, and is meant for experienced overclockers. MX-6 is safe, does not dry out for years, and is the same paste Arctic uses for this cooler.</p></div>
+    </div>
+  </section>
+
   <section aria-labelledby="parts">
-    <h2 id="parts">Parts list</h2>
+    <h2 id="parts">Final parts list</h2>
     <div class="table-scroll">
       <table>
-        <thead><tr><th>Part</th><th>Pick and why</th><th class="price">Approx.</th><th>Shop</th></tr></thead>
+        <thead><tr><th>Part</th><th>Pick</th><th class="price">Price</th><th>Seller</th></tr></thead>
         <tbody>
-          <tr><td class="cat">CPU</td><td class="part"><strong>AMD Ryzen 7 9800X3D</strong><span>8 cores, 3D V-Cache. Still the fastest gaming CPU per dollar; the 9850X3D is only ~2% faster for more money.</span></td><td class="price">$450</td><td><a class="shop" href="https://www.newegg.com/p/pl?d=ryzen+7+9800x3d" target="_blank" rel="noopener">Newegg ↗</a></td></tr>
-          <tr><td class="cat">Cooler</td><td class="part"><strong>Arctic Liquid Freezer III Pro 360 A-RGB</strong><span>360 mm AIO, top-mounted. Keeps the X3D chip quiet under load, 6-year warranty, AM5 bracket in the box.</span></td><td class="price">$120</td><td><a class="shop" href="https://www.newegg.com/p/pl?d=arctic+liquid+freezer+iii+pro+360+a-rgb" target="_blank" rel="noopener">Newegg ↗</a></td></tr>
-          <tr><td class="cat">Board</td><td class="part"><strong>MSI MAG X870 Tomahawk WiFi</strong><span>Wi‑Fi 7 + Bluetooth 5.4 with the external antenna, 5 Gb Ethernet, 4× M.2, USB4 40 Gbps, PCIe 5.0 x16. Strong VRMs for future Zen 6 chips.</span></td><td class="price">$280</td><td><a class="shop" href="https://www.newegg.com/p/pl?d=msi+mag+x870+tomahawk+wifi" target="_blank" rel="noopener">Newegg ↗</a></td></tr>
-          <tr><td class="cat">Memory</td><td class="part"><strong>32 GB (2×16) DDR5‑6000 CL30, AMD EXPO</strong><span>e.g. Patriot Viper Venom RGB or XPG Lancer RGB. 6000 CL30 is the AM5 sweet spot. RAM prices are high in 2026, so any EXPO 6000 CL30 kit at the lowest price is fine.</span></td><td class="price">$400</td><td><a class="shop" href="https://www.newegg.com/p/pl?d=32gb+ddr5+6000+cl30+expo" target="_blank" rel="noopener">Newegg ↗</a></td></tr>
-          <tr><td class="cat">GPU</td><td class="part"><strong>Gigabyte GeForce RTX 5080 Gaming OC 16 GB</strong><span>Gigabyte Gaming OC (340 mm): oversized triple-fan cooler with a vapor chamber, one of the coolest and quietest 5080s. High-refresh 1440p, smooth 4K with DLSS 4. If it is out of stock, pick another full-size triple-fan 5080 (MSI Gaming Trio, ASUS TUF), not a slim budget model.</span></td><td class="price">$1,600</td><td><a class="shop" href="https://www.newegg.com/p/pl?d=gigabyte+rtx+5080+gaming+oc" target="_blank" rel="noopener">Newegg ↗</a></td></tr>
-          <tr><td class="cat">Storage</td><td class="part"><strong>WD_Black SN7100 2 TB NVMe (PCIe 4.0)</strong><span>~7,250 MB/s, TLC, runs cool. Three more M.2 slots free for later.</span></td><td class="price">$290</td><td><a class="shop" href="https://www.newegg.com/p/pl?d=wd+black+sn7100+2tb" target="_blank" rel="noopener">Newegg ↗</a></td></tr>
-          <tr><td class="cat">Power</td><td class="part"><strong>Corsair RM1000x (ATX 3.1, 80+ Gold)</strong><span>Native 12V‑2×6 cable for the 5080, fully modular, 10-year warranty. At ≈560 W load it runs near its most efficient point with the fan barely spinning, and it can power a future top-end GPU.</span></td><td class="price">$180</td><td><a class="shop" href="https://www.newegg.com/p/pl?d=corsair+rm1000x+atx+3.1" target="_blank" rel="noopener">Newegg ↗</a></td></tr>
-          <tr><td class="cat">Case</td><td class="part"><strong>Lian Li Lancool 216 RGB (black or white)</strong><span>Mesh front with two 160 mm ARGB fans + 140 mm rear, glass side, 360 mm top radiator support, 392 mm GPU clearance.</span></td><td class="price">$105</td><td><a class="shop" href="https://www.newegg.com/p/pl?d=lian+li+lancool+216+rgb" target="_blank" rel="noopener">Newegg ↗</a></td></tr>
-          <tr><td class="cat">Fans</td><td class="part"><strong>Arctic P12 Pro A-RGB, 2× 120 mm</strong><span>Mounted in the case floor as intake, blowing fresh air straight into the GPU fans.</span></td><td class="price">$35</td><td><a class="shop" href="https://www.newegg.com/p/pl?d=arctic+p12+pro+a-rgb" target="_blank" rel="noopener">Newegg ↗</a></td></tr>
+          <tr><td class="cat">CPU</td><td class="part"><strong>AMD Ryzen 7 9800X3D</strong><span class="was">Intel Core Ultra 7 270K Plus · $330.00</span></td><td class="price">$444.99</td><td class="shop">Amazon</td></tr>
+          <tr><td class="cat">Board</td><td class="part"><strong>Gigabyte X870 AORUS ELITE WIFI7 ICE</strong><span class="was">Gigabyte Z890 AORUS ELITE WIFI7 ICE · $189.99</span></td><td class="price">$227.48</td><td class="shop">Amazon</td></tr>
+          <tr><td class="cat">GPU</td><td class="part"><strong>Gigabyte GeForce RTX 5080 Gaming OC 16 GB</strong><span class="was">PNY RTX 5080 ARGB Epic-X · $1,784.11</span></td><td class="price">$1,603.50</td><td class="shop">Amazon</td></tr>
+          <tr><td class="cat">Memory</td><td class="part"><strong>Corsair Vengeance RGB White 32 GB (2×16) DDR5‑6000 CL36</strong><span class="kept">KEPT · a CL30 white kit costs ~$150 more for almost no gain on an X3D chip</span></td><td class="price">$469.99</td><td class="shop">Amazon</td></tr>
+          <tr><td class="cat">Storage</td><td class="part"><strong>WD_Black SN7100 2 TB NVMe</strong><span class="was">Crucial T500 2TB · $409.15</span></td><td class="price">$302.00</td><td class="shop">Amazon</td></tr>
+          <tr><td class="cat">Cooler</td><td class="part"><strong>Arctic Liquid Freezer III Pro A-RGB 360 White</strong><span class="kept">KEPT · great cooler at a great price</span></td><td class="price">$80.19</td><td class="shop">Amazon</td></tr>
+          <tr><td class="cat">Power</td><td class="part"><strong>Corsair RM1000x (2024) ATX 3.1</strong><span class="kept">KEPT · native 12V‑2×6 cable, 10-year warranty</span></td><td class="price">$166.99</td><td class="shop">Newegg / Best Buy</td></tr>
+          <tr><td class="cat">Case</td><td class="part"><strong>Lian Li LANCOOL 216 RGB White</strong><span class="kept">KEPT · stock looks thin at some stores, so check before ordering</span></td><td class="price">$112.00</td><td class="shop">BuildCores list</td></tr>
+          <tr><td class="cat">Fans</td><td class="part"><strong>Arctic P12 Pro White A-RGB Reverse, 3-pack</strong><span class="was">Corsair iCUE LINK QX120 White · $94.98</span></td><td class="price">$40.99</td><td class="shop">Walmart</td></tr>
+          <tr><td class="cat">Paste</td><td class="part"><strong>Arctic MX-6 4 g</strong><span class="was">Thermal Grizzly Conductonaut Extreme · $49.99</span></td><td class="price">$9.99</td><td class="shop">Amazon</td></tr>
         </tbody>
-        <tfoot><tr><td></td><td>Total (before tax, no OS)</td><td class="price">$3,460</td><td></td></tr></tfoot>
+        <tfoot><tr><td></td><td>Total (before tax, no OS)</td><td class="price">$3,458.12</td><td></td></tr></tfoot>
       </table>
     </div>
-    <p class="note">Prices are typical US prices seen in early October 2026 and move week to week. RAM, SSD and GPU prices are well above MSRP this year. Windows 11 is not included.</p>
+    <p class="note">Prices are the lowest in-stock US prices in BuildCores’ own price data on 7 October 2026, and they change daily.</p>
   </section>
 
   <section aria-labelledby="compat">
     <h2 id="compat">Compatibility checks</h2>
     <div class="checks">
-      <div class="check"><span class="pill">OK</span><h3>CPU ↔ board</h3><p>AM5 socket. X870 boards ship with BIOS support for Ryzen 9000, and AM5 is confirmed for Zen 6.</p></div>
-      <div class="check"><span class="pill">OK</span><h3>GPU length</h3><p>340 mm card in a case that takes 392 mm, with the radiator on top so the front is free.</p><div class="meter"><i style="width:87%"></i></div></div>
-      <div class="check"><span class="pill">OK</span><h3>Power budget</h3><p>≈120 W CPU + 360 W GPU + ≈80 W rest ≈ 560 W peak on a 1000 W unit.</p><div class="meter"><i style="width:56%"></i></div></div>
-      <div class="check"><span class="pill">OK</span><h3>GPU power cable</h3><p>RM1000x has a native 12V‑2×6 lead. Push it in fully until it clicks; no adapters.</p></div>
-      <div class="check"><span class="pill">OK</span><h3>Cooler fit</h3><p>Lancool 216 takes a 360 mm radiator on top, so the front stays clear for the 160 mm intake fans and the GPU.</p></div>
-      <div class="check"><span class="pill">OK</span><h3>Memory</h3><p>2 sticks in A2/B2. Turn on EXPO in BIOS to run at 6000. Two sticks run faster on AM5 than four.</p></div>
+      <div class="check"><span class="pill">OK</span><h3>CPU ↔ board</h3><p>Both AM5. X870 boards ship ready for Ryzen 9000, and AM5 is confirmed for Zen 6.</p></div>
+      <div class="check"><span class="pill">OK</span><h3>GPU length</h3><p>340 mm card in a case that takes 392 mm.</p><div class="meter"><i style="width:87%"></i></div></div>
+      <div class="check"><span class="pill">OK</span><h3>Power budget</h3><p>Your original drew 639 W by BuildCores’ estimate; the 9800X3D uses less than the Intel chip. 1000 W leaves big headroom.</p><div class="meter"><i style="width:62%"></i></div></div>
+      <div class="check"><span class="pill">OK</span><h3>Cooler fit</h3><p>360 mm radiator on top of the Lancool 216; the Arctic kit includes the AM5 bracket.</p></div>
+      <div class="check"><span class="pill">OK</span><h3>Fans and lighting</h3><p>Cooler, case and floor fans all use standard 3-pin ARGB, so one motherboard header syncs everything. No extra software hub.</p></div>
+      <div class="check"><span class="pill">OK</span><h3>Memory</h3><p>Two sticks in slots A2/B2. Turn on EXPO in the BIOS to run at 6000.</p></div>
     </div>
   </section>
 
   <section aria-labelledby="cooling">
-    <h2 id="cooling">Cooling and keeping it fast</h2>
+    <h2 id="cooling">Airflow</h2>
     <div class="checks">
-      <div class="check"><span class="pill">IN</span><h3>Front: 2× 160 mm</h3><p>Case fans pull cool air across the whole board and GPU.</p></div>
-      <div class="check"><span class="pill">IN</span><h3>Bottom: 2× 120 mm</h3><p>Feed fresh air straight into the GPU, the hottest part.</p></div>
-      <div class="check"><span class="pill">OUT</span><h3>Top: 360 mm radiator</h3><p>CPU heat leaves through the roof, so it never warms the GPU.</p></div>
-      <div class="check"><span class="pill">OUT</span><h3>Rear: 140 mm</h3><p>Pulls warm air out behind the CPU. More intake than exhaust keeps dust out.</p></div>
+      <div class="check"><span class="pill">IN</span><h3>Front: 2× 160 mm</h3><p>The case’s own fans pull cool air across the board and GPU.</p></div>
+      <div class="check"><span class="pill">IN</span><h3>Floor: 2× 120 mm</h3><p>Two Arctic P12 Pro fans push fresh air straight into the GPU. Keep the third as a spare.</p></div>
+      <div class="check"><span class="pill">OUT</span><h3>Top: 360 mm radiator</h3><p>CPU heat leaves through the roof and never warms the GPU.</p></div>
+      <div class="check"><span class="pill">OUT</span><h3>Rear: 140 mm</h3><p>More air comes in than goes out, which keeps dust out of the case.</p></div>
     </div>
     <ol class="steps">
-      <li>In BIOS: turn on EXPO, then update to the latest BIOS from MSI's site.</li>
-      <li>Set the AIO pump to full speed (it is quiet) and fans on a temperature curve.</li>
+      <li>In BIOS: update to the latest version, then turn on EXPO.</li>
       <li>Install the newest NVIDIA driver and use DLSS in demanding games.</li>
-      <li>Clean the front and bottom dust filters every 2–3 months.</li>
-      <li>Plug it into a good surge protector.</li>
+      <li>Clean the front and floor dust filters every 2–3 months.</li>
+      <li>Plug the PC into a good surge protector.</li>
     </ol>
-  </section>
-
-  <section aria-labelledby="swaps">
-    <h2 id="swaps">Swaps if prices shift</h2>
-    <div class="swaps">
-      <div class="swap"><span class="delta down">− $550 → ≈ $2,910</span><strong>RTX 5070 Ti instead of 5080</strong><p>About 12–15% slower for a third less money. The best value per frame if the 5080 stays above $1,500.</p></div>
-      <div class="swap"><span class="delta down">− $800 → ≈ $2,660</span><strong>Radeon RX 9070 XT instead of 5080</strong><p>Close to 5070 Ti in raster games and much cheaper this year. Weaker in heavy ray tracing; FSR 4 instead of DLSS.</p></div>
-      <div class="swap"><span class="delta up">+ ≈ $400 → ≈ $3,860</span><strong>64 GB (2×32) instead of 32 GB</strong><p>Only for heavy editing, VMs or local AI. For gaming, 32 GB is enough; you can swap kits later.</p></div>
-    </div>
   </section>
 
   <section aria-labelledby="recreate">
-    <h2 id="recreate">Put it in BuildCores</h2>
-    <div class="callout"><p>BuildCores share links only come from a logged-in account, so add these nine parts in the BuildCores builder and hit Share to get your own link. It will also re-run its compatibility check and show live prices.</p></div>
+    <h2 id="recreate">Make it in BuildCores</h2>
     <ol class="steps">
-      <li>Open <a href="https://www.buildcores.com" target="_blank" rel="noopener">buildcores.com</a> and start a new build (or edit your existing one).</li>
-      <li>Add each part from the list below, picking the exact model name.</li>
-      <li>Check the compatibility panel shows no warnings, then press Share.</li>
+      <li>Open your build: <a href="https://www.buildcores.com/builds/NQskUL-cW?share=true" target="_blank" rel="noopener">New Build 3 ↗</a>, then edit it (or press Clone Build to keep the original).</li>
+      <li>Swap the six parts below. Case, cooler, RAM and power supply stay.</li>
+      <li>Check that it shows Compatible, then press Share → Link.</li>
     </ol>
-    <textarea id="partlist" readonly aria-label="Plain text parts list">CPU: AMD Ryzen 7 9800X3D
-CPU Cooler: ARCTIC Liquid Freezer III Pro 360 A-RGB
-Motherboard: MSI MAG X870 TOMAHAWK WIFI
-Memory: 32GB (2x16GB) DDR5-6000 CL30 EXPO (Patriot Viper Venom RGB / XPG Lancer RGB)
-Video Card: Gigabyte GeForce RTX 5080 GAMING OC 16G
-Storage: WD_BLACK SN7100 2TB NVMe
-Power Supply: Corsair RM1000x (ATX 3.1)
-Case: Lian Li LANCOOL 216 RGB
-Case Fans: ARCTIC P12 PRO A-RGB 120mm (x2)</textarea>
-    <div class="copyrow"><button id="copyBtn" type="button">Copy parts list</button><span id="copyStatus" role="status"></span></div>
+    <textarea id="partlist" readonly aria-label="Parts to swap">CPU: AMD Ryzen 7 9800X3D
+Motherboard: Gigabyte X870 AORUS ELITE WIFI7 ICE
+GPU: Gigabyte GeForce RTX 5080 GAMING OC 16G (GV-N5080GAMING OC-16GD)
+Storage: Western Digital WD_BLACK SN7100 2TB
+Case Fan: Arctic P12 Pro White ARGB PWM Reverse Blade Pack of 3
+Thermal Compound: Arctic MX-6 4g
+Keep: Lian Li LANCOOL 216 RGB White, ARCTIC Liquid Freezer III Pro A-RGB 360 White, Corsair Vengeance RGB White DDR5-6000 CL36 32GB, Corsair RM1000x (2024)</textarea>
+    <div class="copyrow"><button id="copyBtn" type="button">Copy swap list</button><span id="copyStatus" role="status"></span></div>
   </section>
 
   <footer>
-    <p>Original BuildCores link (NQskUL-cW) could not be loaded from the research environment, so this list is a full rebuild for the stated goals rather than a part-by-part edit.</p>
-    <p>Price sources: Newegg listings, videocardprices.com, cheapestssd.com and Newegg's 2026 DDR5 buying guide, checked October 2026.</p>
+    <p>Sources: BuildCores part and price data; gaming comparisons from TechSpot and Club386; Corsair’s iCUE LINK product pages; Intel LGA 1954 socket reports from Guru3D.</p>
   </footer>
 </div>
 
